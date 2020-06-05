@@ -49,14 +49,14 @@ RUN apk --update --no-cache add \
 WORKDIR /etc/pgbouncer
 WORKDIR /var/log/pgbouncer
 
-RUN chown -R postgres:root \
+RUN chown -R 1000:1000 \
         /etc/pgbouncer \
         /var/log/pgbouncer
 
-USER postgres
+USER 1000
 
-COPY --from=build_stage --chown=postgres ["/tmp/pgbouncer", "/opt/pgbouncer"]
-COPY --chown=postgres ["entrypoint.sh", "/opt/pgbouncer"]
+COPY --from=build_stage --chown=1000 ["/tmp/pgbouncer", "/opt/pgbouncer"]
+COPY --chown=1000 ["entrypoint.sh", "/opt/pgbouncer"]
 
 WORKDIR /opt/pgbouncer
 ENTRYPOINT ["/opt/pgbouncer/entrypoint.sh"]
